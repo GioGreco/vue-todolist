@@ -6,7 +6,11 @@ const { createApp } = Vue;
 const app = createApp({
     data(){
         return{
-            ready: 'Ready',
+            isValid: false,
+            newTask: {
+                text: '',
+                done: false
+            },
             toDoList: [
                 {
                     text: 'Cazza la randa',
@@ -20,13 +24,25 @@ const app = createApp({
         }
     },
     methods: {
-
+        addTask(){
+            if(this.newTask.text.length >= 5){
+                this.toDoList.push({...this.newTask});
+                this.isValid = false;
+            }
+            else{
+                this.isValid = true;
+                setTimeout(() => {this.isValid = false}, 1500);
+            }
+            this.newTask.text = '';
+        },
+        removeTask(i){
+            this.toDoList.splice(i,1);
+        }
     },
     computed: {
 
     },
     mounted(){
-        console.log(this.ready)
     }
 });
 

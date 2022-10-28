@@ -13,22 +13,31 @@
     
     <div id="app">
         <div class="container">
+            <div class="error d-flex justify-content-center align-items-center">
+                <transition name="errorAnimation">
+                    <div v-if="isValid" class="toast fs-6 alert alert-danger">Il task deve essere almeno lungo 5 caratteri!</div>
+                </transition>
+            </div>
             <header class="d-flex justify-content-center">
-                <input type="text">
-                <button class="btn btn-info mx-2">AGGIUNGI</button>
+                <input type="text" v-model="newTask.text" @keyup.enter="addTask" class="mx-2 p-2">
+                <button @click="addTask" class="btn btn-info mx-2">AGGIUNGI</button>
             </header>
             <div id="tasks">
-                <transition-group name='taskAnimation' tag='ul' class="d-flex flex-column align-items-center">
+                <transition-group name='taskAnimation' tag='ul' class="d-flex flex-column align-items-center" v-if="toDoList.length > 0">
                     <li v-for="(item,index) in toDoList" :key="index" class="my-3 border border-dark d-flex">
-                        <span class="h-100 w-75">{{item.text}}</span>
-                        <div class="toggleTask h-100 w-25"></div>
+                        <div :id="'task-'+index" class="h-100 w-75 d-flex justify-content-center align-items-center">
+                            <span>{{item.text}}</span>
+                        </div>
+                        <div @click="removeTask(index)" class="toggleTask h-100 w-25"></div>
                     </li>
                 </transition-group>
+                <div v-else class="text-center">Finito tutto :)</div>
             </div>
         </div>
     </div>
 
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.2.41/dist/vue.global.min.js"></script>
     <script src="./js/script.js"></script>
 </body>
 </html>
