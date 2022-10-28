@@ -13,7 +13,7 @@ const app = createApp({
             },
             toDoList: [
                 {
-                    text: 'Cazza la randa',
+                    text: 'Comprare il pane',
                     done: false,
                 },
                 {
