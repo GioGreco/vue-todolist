@@ -1,13 +1,22 @@
 "use strict";
 
-// const { createApp } = Vue;
-
-import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+// import { createApp } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+const { createApp } = Vue;
 
 const app = createApp({
     data(){
         return{
-            ready: 'Ready'
+            ready: 'Ready',
+            toDoList: [
+                {
+                    text: 'Cazza la randa',
+                    done: false,
+                },
+                {
+                    text: 'Buttare spazzatura',
+                    done: false
+                }
+            ]
         }
     },
     methods: {
