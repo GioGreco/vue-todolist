@@ -89,7 +89,7 @@
     border: 1px solid black;
 }
 
-.taskAnimation-enter-active, .taskAnimation-move{
+.taskAnimation-enter-active{
     animation: taskBounce 1s ease-in-out forwards;
 }
 
@@ -111,6 +111,12 @@
 
 .taskAnimation-leave-active{
     transition: transform 1s ease-in-out;
+    position: absolute;
+}
+
+.taskAnimation-move{
+    transition: transform 1s ease-in-out;
+
 }
 
 

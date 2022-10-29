@@ -8,25 +8,21 @@ const app = createApp({
         return{
             isValid: false,
             newTask: {
+                id: '',
                 text: '',
                 done: false
             },
             toDoList: [
-                {
-                    text: 'Comprare il pane',
-                    done: false,
-                },
-                {
-                    text: 'Buttare spazzatura',
-                    done: false
-                }
+        
             ]
         }
     },
     methods: {
         addTask(){
             if(this.newTask.text.length >= 5){
-                this.toDoList.push({...this.newTask});
+                const newId = randomBetween(1, 100000);
+                this.newTask.id = newId;
+                this.toDoList.unshift({...this.newTask});
                 this.isValid = false;
             }
             else{
@@ -34,9 +30,11 @@ const app = createApp({
                 setTimeout(() => {this.isValid = false}, 1500);
             }
             this.newTask.text = '';
+            this.newTask.id = '';
         },
-        removeTask(i){
-            this.toDoList.splice(i,1);
+        removeTask(id){
+            // this.toDoList.splice(i ,1);
+            this.toDoList = this.toDoList.filter(toDo => toDo.id != id)
         }
     },
     computed: {
