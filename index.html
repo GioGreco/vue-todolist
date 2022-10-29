@@ -29,15 +29,17 @@
                         <div :id="'task-'+index" class="h-100 w-75 d-flex justify-content-center align-items-center">
                             <span>{{item.text}}</span>
                         </div>
-                        <div @click.stop="removeTask(item.id)" class="toggleTask h-100 w-25"></div>
+                        <div @click.stop="removeTask(item.id)" class="h-100 w-25 d-flex justify-content-center align-items-center"><span>X</span></div>
                     </li>
                 </transition-group>
-                <div v-if="!toDoList.length" class="text-center">
-                    <h4 class="my-4">Task completate</h4>
-                    <div class="addIcon">
-                        
+                <transition name="nothingLeft">
+                    <div v-if="!toDoList.length" class="text-center">
+                        <h4 class="my-4">Task completate</h4>
+                        <div class="addIcon">
+                    
+                        </div>
                     </div>
-                </div>
+                </transition>
             </div>
         </div>
     </div>

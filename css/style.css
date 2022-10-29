@@ -85,10 +85,6 @@
     text-align: center;
 }
 
-#tasks .toggleTask{
-    border: 1px solid black;
-}
-
 .taskAnimation-enter-active{
     animation: taskBounce 1s ease-in-out forwards;
 }
@@ -133,4 +129,16 @@
     100%{
         transform: scale(1);
     }
+}
+
+.nothingLeft-enter-from{
+    opacity: 0;
+}
+
+.nothingLeft-enter-to{
+    opacity: 1;
+}
+
+.nothingLeft-enter-active{
+    transition: opacity 1s ease-in-out;
 }
