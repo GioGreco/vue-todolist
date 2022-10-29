@@ -24,7 +24,7 @@
                 <button @click="addTask" class="btn btn-info mx-2">AGGIUNGI</button>
             </header>
             <div id="tasks">
-                <transition-group name='taskAnimation' tag='ul' appear class="d-flex flex-column align-items-center" v-if="toDoList.length > 0">
+                <transition-group name='taskAnimation' tag='ul' appear class="d-flex flex-column align-items-center">
                     <li v-for="(item,index) in toDoList" :key="item.id" class="my-3 border border-dark d-flex">
                         <div :id="'task-'+index" class="h-100 w-75 d-flex justify-content-center align-items-center">
                             <span>{{item.text}}</span>
@@ -32,7 +32,7 @@
                         <div @click.stop="removeTask(item.id)" class="toggleTask h-100 w-25"></div>
                     </li>
                 </transition-group>
-                <div v-else class="text-center">
+                <div v-if="!toDoList.length" class="text-center">
                     <h4 class="my-4">Task completate</h4>
                     <div class="addIcon">
                         
