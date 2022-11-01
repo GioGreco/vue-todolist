@@ -4,14 +4,280 @@
     box-sizing: border-box;
 }
 
+.clearfix::after{
+    display: table;
+    content: '';
+    clear: both;
+}
+
+body{
+    font-family: 'Oswald', sans-serif;
+}
+
+#app{
+    background-image: linear-gradient(
+        110deg,
+        hsl(231deg 21% 45%) 0%,
+        hsl(230deg 23% 33%) -2%,
+        hsl(213deg 64% 9%) 41%
+      );
+    overflow-x: hidden;
+}
+
+/* HEADER */
+
+header{
+    float: left;
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    width: 25%;
+    background-color: transparent;
+}
+
+header .backgroundHead{
+    z-index: -2;
+    background-color: transparent;
+}
+
+.ufo{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+
+.light-beam{
+    z-index: -1;
+    top: 50%;
+    left: 50%;
+    width: 133%;
+    opacity: .6;
+    transform: translate(-50%, 0);
+    background-color: transparent;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 170px solid lightgoldenrodyellow;
+}
+
+.ufo-inputs{
+    border: 1px solid lightgoldenrodyellow;
+    background-color: palegoldenrod;
+    width: 266px;
+}
+
+.ufo-inputs input{
+    width: 80%;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid lightgoldenrodyellow;
+    outline: none;
+    color: black;
+    text-align: center;
+}
+
+/* LightBeam transition */
+.fadeLightBeam-enter-active{
+    transition: opacity 1s ease-out, border-bottom .5s ease-out, width 1s ease-out;
+}
+
+.fadeLightBeam-enter-from{
+    width: 70%;
+    border-bottom: 100px solid lightgoldenrodyellow;
+    opacity: 0;
+}
+
+.fadeLightBeam-enter-to{
+    width: 133%;
+    border-bottom: 170px solid lightgoldenrodyellow;
+    opacity: .6;
+}
+
+.fadeLightBeam-leave-active{
+    transition: opacity 1s ease-out, border-bottom .5s ease-out, width 1s ease-out;
+}
+
+.fadeLightBeam-leave-from{
+    width: 133%;
+    border-bottom: 170px solid lightgoldenrodyellow;
+    opacity: .6;
+}
+
+.fadeLightBeam-leave-to{
+    width: 70%;
+    border-bottom: 10px solid lightgoldenrodyellow;
+    opacity: 0;
+}
+/* highlighted area transition */
+.fadeLight-enter-active{
+    transition: opacity .5s ease-out .5s, width 1s ease-out;
+}
+
+.fadeLight-enter-from{
+    width: 150px;
+    opacity: 0;
+}
+
+.fadeLight-enter-to{
+    width: 266px;
+    opacity: .8;
+}
+
+.fadeLight-leave-active{
+    transition: opacity .2s ease-out .5s, width 1s ease-out;
+}
+
+.fadeLight-leave-to{
+    width: 150px;
+    opacity: 0;
+}
+
+.fadeLight-leave-from{
+    width: 266px;
+    opacity: .8;
+}
+
+/* TASKS SECTION  */
+
+#container{
+    float: right;
+    width: 75%;
+    height: 100vh;
+}
+
+#tasks ul{
+    list-style: none;
+}
+
+#tasks ul li{
+    height: 150px;
+    text-align: center;
+}
+
+#tasks ul li > span{
+    top: 0;
+    left: 15%;
+}
+
+#tasks .task{
+    border-bottom: 1px solid goldenrod;
+    border-right: 1px solid goldenrod;
+    cursor: pointer;
+}
+
+#tasks .task .status{
+    color: goldenrod;
+}
+
+.greenBorder{
+    border-bottom: 1px solid palegreen !important;
+    border-right: 1px solid palegreen !important;
+}
+
+.redBorder{
+    border-bottom: 1px solid palevioletred !important;
+    border-right: 1px solid palevioletred !important;
+}
+
+.greenThrough{
+    text-decoration: line-through;
+}
+
+.green{
+    color: palegreen;
+}
+
+.red{
+    color: palevioletred;
+}
+
+#tasks .clear{
+    cursor: pointer;
+}
+
+#tasks .clear:hover{
+    color: palevioletred;
+}
+
+/* List item animation */
+.taskAnimation-enter-active{
+    animation: taskBounce 1s ease-in-out forwards;
+}
+
+.taskAnimation-enter-from{
+    transform: scale(.3)
+}
+
+.taskAnimation-enter-to{
+    transform: scale(1);
+}
+
+.taskAnimation-leave-from{
+    transform: translateX(0);
+}
+
+.taskAnimation-leave-to{
+    transform: translateX(5000px);
+}
+
+.taskAnimation-leave-active{
+    transition: transform 1s ease-in-out;
+    position: absolute;
+}
+
+.taskAnimation-move{
+    transition: transform 1s ease-in-out;
+}
+
+.noTasksLeft{
+    color: goldenrod;
+    text-decoration: underline;
+}
+
+@keyframes taskBounce {
+    50%{
+        transform: scale(1.5)
+    };
+    65%{
+        transform: scale(.7);
+    };
+    80%{
+        transform: scale(1.2);
+    }
+    100%{
+        transform: scale(1);
+    }
+}
+
+/* transition when 0 tasks left. (Delay) */
+.nothingLeft-enter-from{
+    opacity: 0;
+}
+
+.nothingLeft-enter-to{
+    opacity: 1;
+}
+
+.nothingLeft-enter-active{
+    transition: opacity 1s ease-in-out;
+}
+
+.complete{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* ERROR NOTIFICATION */
+
 .error{
     height: 100px;
 }
 
-.error .toast{
+.error div{
     opacity: 100;
 }
 
+/* error animation */
 .errorAnimation-enter-active{
     transition: all .5s ease;
 }
@@ -32,12 +298,10 @@
 
 .errorAnimation-leave-from{
     opacity: 100%;
-    /* transform: translateY(0); */
 }
 
 .errorAnimation-leave-to{
     opacity: 0;
-    /* transform: translateY(-80px); */
 }
 
 @keyframes errorShake {
@@ -72,73 +336,4 @@
         transform: translateX(0);
         transform: translateY(-80px);
     }
-    
-}
-
-#tasks ul{
-    list-style: none;
-}
-
-#tasks ul li{
-    width: 300px;
-    height: 60px;
-    text-align: center;
-}
-
-.taskAnimation-enter-active{
-    animation: taskBounce 1s ease-in-out forwards;
-}
-
-.taskAnimation-enter-from{
-    transform: scale(.3)
-}
-
-.taskAnimation-enter-to{
-    transform: scale(1);
-}
-
-.taskAnimation-leave-from{
-    transform: translateX(0);
-}
-
-.taskAnimation-leave-to{
-    transform: translateX(5000px);
-}
-
-.taskAnimation-leave-active{
-    transition: transform 1s ease-in-out;
-    position: absolute;
-}
-
-.taskAnimation-move{
-    transition: transform 1s ease-in-out;
-
-}
-
-
-@keyframes taskBounce {
-    50%{
-        transform: scale(1.5)
-    };
-    65%{
-        transform: scale(.7);
-    };
-    80%{
-        transform: scale(1.2);
-    }
-    100%{
-        transform: scale(1);
-    }
-}
-
-.nothingLeft-enter-from{
-    opacity: 0;
-}
-
-.nothingLeft-enter-to{
-    opacity: 1;
-}
-
-.nothingLeft-enter-active{
-    transition: opacity 1s ease-in-out;
 }

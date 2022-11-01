@@ -10,11 +10,13 @@ const app = createApp({
             newTask: {
                 id: '',
                 text: '',
-                done: false
+                done: false,
+                readyToLeave: false,
             },
-            toDoList: [
-        
-            ]
+            toDoList: [],
+            ufo: './img/ufo.png',
+            canAdd: false,
+            // readyToLeave: false,
         }
     },
     methods: {
@@ -35,10 +37,29 @@ const app = createApp({
         removeTask(id){
             // this.toDoList.splice(i ,1);
             this.toDoList = this.toDoList.filter(toDo => toDo.id != id)
+        },
+        showInputs(){
+            this.canAdd = true;
+        },
+        hideInputs(){
+            this.canAdd = false;
+        },
+        completeTask(id){
+            const currentTask = this.toDoList.filter(toDo => toDo.id == id);
+            console.log(currentTask[0].done);
+            currentTask[0].done = !currentTask[0].done;
+            console.log(currentTask[0].done);
+        },
+        readyLeave(id){
+            const currentTask = this.toDoList.filter(toDo => toDo.id == id);
+            currentTask[0].readyToLeave = true;
+        },
+        notReadyLeave(id){
+            const currentTask = this.toDoList.filter(toDo => toDo.id == id);
+            currentTask[0].readyToLeave = false;
         }
     },
     computed: {
-
     },
     mounted(){
     }

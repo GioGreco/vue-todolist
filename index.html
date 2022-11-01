@@ -6,38 +6,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vue To Do List</title>
     <script src="./js/myFunctions.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
     
-    <div id="app">
-        <div class="container">
-            <div class="error d-flex justify-content-center align-items-center">
-                <transition name="errorAnimation">
-                    <div v-if="isValid" class="toast fs-6 alert alert-danger">Il task deve essere almeno lungo 5 caratteri!</div>
+    <div id="app" class="clearfix">
+        <header class="d-flex flex-column justify-content-center">
+            <div @mouseover="showInputs" @mouseleave="hideInputs" class="inner-header d-flex flex-column justify-content-center align-items-center">
+                <div class="ufo position-relative">
+                    <img :src="ufo" alt="ufo pic" class="w-100 h-100">
+                    <transition name="fadeLightBeam">
+                        <div v-if="canAdd" class="light-beam position-absolute"></div>
+                    </transition>
+                </div>
+                <transition name="fadeLight">
+                    <div v-if="canAdd" class="ufo-inputs d-flex flex-column align-items-center p-4 rounded-circle">
+                        <input type="text" v-model="newTask.text" @keyup.enter="addTask" class="mx-2 p-2 mb-2">
+                        <button @click="addTask" class="btn btn-warning mx-2 rounded-circle"><i class="fa-solid fa-plus"></i></button>
+                    </div>
                 </transition>
             </div>
-            <header class="d-flex justify-content-center">
-                <input type="text" v-model="newTask.text" @keyup.enter="addTask" class="mx-2 p-2">
-                <button @click="addTask" class="btn btn-info mx-2">AGGIUNGI</button>
-            </header>
-            <div id="tasks">
-                <transition-group name='taskAnimation' tag='ul' appear class="d-flex flex-column align-items-center">
-                    <li v-for="(item,index) in toDoList" :key="item.id" class="my-3 border border-dark d-flex">
-                        <div :id="'task-'+index" class="h-100 w-75 d-flex justify-content-center align-items-center">
-                            <span>{{item.text}}</span>
+            <div class="backgroundHead position-absolute h-100 w-100"></div>
+        </header>
+        <div id="container" class="position-relative">
+            <div class="error d-flex justify-content-center align-items-center">
+                <transition name="errorAnimation">
+                    <div v-if="isValid" class="fs-6 alert alert-danger">Almeno 5 caratteri!</div>
+                </transition>
+            </div>
+            <div id="tasks" class="p-4">
+                <transition-group name='taskAnimation' tag='ul' appear class="d-flex m-0 p-0 align-items-center w-100 row g-3 text-white">
+                    <li v-for="(item,index) in toDoList" :key="item.id" class="d-flex col-6 position-relative">
+                        <span class="text-uppercase position-absolute">task : {{index + 1}}</span>
+                        <div :id="'task-'+index" :class="{greenBorder: item.done, redBorder: item.readyToLeave}" class="task rounded-pill h-100 w-100 d-flex align-items-center overflow-hidden">
+                            <div @click="completeTask(item.id)" :class="{green: item.done}" class="status w-75 h-100 d-flex justify-content-around align-items-center">
+                                <i v-if="!item.done && !item.readyToLeave" :class="{red: item.readyToLeave}" class="fa-solid fa-clock fs-1"></i>
+                                <i v-else-if="item.done && !item.readyToLeave" :class="{green: item.done}" class="fa-solid fa-circle-check fs-1"></i>
+                                <i v-else-if="item.readyToLeave" :class="{red: item.readyToLeave}" class="fa-solid fa-circle-xmark fs-1"></i>
+                                <span :class="{greenThrough: item.done}" class="text-white">{{item.text}}</span>
+                            </div>
+                            <div @click.stop="removeTask(item.id)" class="w-25 h-100 d-flex justify-content-center align-items-center">
+                                <span @mouseover="readyLeave(item.id)" @mouseleave="notReadyLeave(item.id)" class="clear">
+                                    <i class="fa-solid fa-trash-can fs-2"></i>
+                                </span>
+                            </div>
                         </div>
-                        <div @click.stop="removeTask(item.id)" class="h-100 w-25 d-flex justify-content-center align-items-center"><span>X</span></div>
                     </li>
                 </transition-group>
                 <transition name="nothingLeft">
-                    <div v-if="!toDoList.length" class="text-center">
-                        <h4 class="my-4">Task completate</h4>
-                        <div class="addIcon">
-                    
-                        </div>
+                    <div v-if="!toDoList.length" class="complete text-center position-absolute">
+                        <h2 class="noTasksLeft my-4">0 task rimaste!</h2>
                     </div>
                 </transition>
             </div>
